@@ -24,11 +24,11 @@ const TO_DO_LIST = [
         text: "Task 6",
     },
     {
-        id: 6,
+        id: 7,
         text: "  ",
     },
     {
-        id: 6,
+        id: 8,
         text: undefined,
     }
 ];
