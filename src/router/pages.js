@@ -5,9 +5,6 @@ const pages = [
     }, {
         link: "/new",
         text: "New"
-    }, {
-        link: "/about",
-        text: "About"
     }
 ];
 

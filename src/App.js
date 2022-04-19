@@ -15,7 +15,6 @@ function App() {
       <Routes>
         <Route path="/list" element={<ToDoList />} />
         <Route path="/new" element={<CreateNewToDo />} />
-        <Route path="/about" element={<About />} />
         <Route
           path="*"
           element={<Navigate to="/list" replace />}

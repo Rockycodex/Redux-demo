@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
@@ -10,7 +10,7 @@ export default function CreateNewToDo() {
 
     const handleNewToDo = () => {
         TO_DO_LIST.push({
-            id: TO_DO_LIST.length+1,
+            id: TO_DO_LIST.length + 1,
             text: todoText
         });
         setTodoText('');
@@ -22,14 +22,12 @@ export default function CreateNewToDo() {
     }
 
     return (
-        <>
-            <Box>
-                <h3>Create new task</h3>
-                <TextField onChange={handleToDoTextChange} value={todoText} id="outlined-basic" label="Enter the task.." variant="outlined" />
-                <br />
-                <br />
-                <Button onClick={handleNewToDo} variant="contained">Save</Button>
-            </Box>
-        </>
+        <Box>
+            <h3>Create new task</h3>
+            <TextField onChange={handleToDoTextChange} value={todoText} id="outlined-basic" label="Enter the task.." variant="outlined" />
+            <br />
+            <br />
+            <Button onClick={handleNewToDo} variant="contained">Save</Button>
+        </Box>
     );
 }
