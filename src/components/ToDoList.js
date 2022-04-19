@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ToDo from "./ToDo";
 import TO_DO_LIST from "../constants/todos";
 import { List } from '@mui/material';
@@ -10,19 +10,24 @@ import IconButton from '@mui/material/IconButton';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 
-const handleDelete = id => {
-
-    const newTask = [...ToDoList];
-
-}
-
 
 const ToDoList = () => {
+    const [todoList, setTodoList] = useState([]);
+
+    useEffect(() => {
+        setTodoList(TO_DO_LIST);
+    }, [])
+
+    const handleDelete = (id) => {
+        const newToDoList = todoList.filter(todo => todo.id !== id)
+        setTodoList(newToDoList);
+    }
+
     return (
         <Grid className="todoBox">
             <List>
 
-                {TO_DO_LIST.map(todo =>
+                {todoList.length > 0 ? todoList.map(todo =>
                     <ListItem
                         secondaryAction={
                             <>
@@ -31,7 +36,7 @@ const ToDoList = () => {
                                 </IconButton>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <IconButton edge="end" aria-label="delete">
-                                    <DeleteIcon />
+                                    <DeleteIcon onClick={() => handleDelete(todo.id)} />
                                 </IconButton>
                             </>
                         }
@@ -47,16 +52,7 @@ const ToDoList = () => {
                             }
                         />
                     </ListItem>
-
-
-                    //    <ListItem >
-                    //         <div className="bgcolor">
-                    //             <TaskIcon/>
-                    //         <ToDo key={todo.id} data={todo}></ToDo>
-                    //        <DeleteIcon onClick={handleDelete}></DeleteIcon>
-                    //        </div><br/><br/>
-                    //     </ListItem>
-                )}
+                ) : 'No data available'}
 
             </List>
         </Grid>
