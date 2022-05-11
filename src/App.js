@@ -1,15 +1,18 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import './App.css';
 import MyNavBar from './MyNavBar'
 import ToDoList from './components/ToDoList';
 import CreateNewToDo from './components/CreateNewToDo';
-import About from './components/About';
+import configureStore from "./store";
+
+const store = configureStore();
 
 function App() {
   return (
-    <div>
+    <Provider store={store}>
       <MyNavBar></MyNavBar>
 
       <Routes>
@@ -20,7 +23,7 @@ function App() {
           element={<Navigate to="/list" replace />}
         />
       </Routes>
-    </div>
+    </Provider>
   );
 }
 
