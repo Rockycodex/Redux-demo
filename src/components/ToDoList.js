@@ -6,15 +6,10 @@ import { ListItemAvatar, ListItem, Avatar, ListItemText } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import EditIcon from '@mui/icons-material/Edit';
 import '../App.css';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import EditTask from './EditTask';
 
 
@@ -22,13 +17,14 @@ const ToDoList = () => {
     const [todoList, setTodoList] = useState([]);
     const [editTodo, setEditTodo] = useState(false);
     const [editTodoText, setEditTodoText] = useState('');
+    const [completeTodoText, setCompleteTodoText] = useState(false);
 
     useEffect(() => {
         setTodoList(TO_DO_LIST);
     }, [])
 
     const handleDelete = (id) => {
-        const newToDoList = todoList.filter(todo => todo.id !== id)
+        const newToDoList = todoList.filter(todo => todo.id !== id);
         setTodoList(newToDoList);
     }
 
@@ -54,22 +50,44 @@ const ToDoList = () => {
         });
         setTodoList(newTodoList);
         setEditTodo(false);
-        setEditTodoText('');
+        setEditTodoText('');  
     }
+
+        const handleTodoComplete = (id) =>{
+        const newTodo = todoList.filter(todo => todo.id !== id)
+        const completedTodo = todoList.filter(todo => todo.id ===  id)[0];
+       
+        if(completedTodo.isCompleted){
+            completedTodo.isCompleted=false;
+            newTodo.unshift(completedTodo); 
+        }
+        else{
+            completedTodo.isCompleted=true;
+            newTodo.push(completedTodo)
+        }
+
+        setTodoList(newTodo);
+
+        }
+
     return (
-        <Grid className="container">
+        <Grid >
             {editTodo && <EditTask
                 editTodo={editTodo}
                 editTodoText={editTodoText.text}
                 handleDialogClose={handleDialogClose}
                 handleToDoSave={handleToDoSave}
             />}
-            <List>
+            <List >
 
                 {todoList.length > 0 ? todoList.map(todo =>
                     <ListItem
                         secondaryAction={
                             <>
+                                <IconButton>
+                                <DoneAllIcon onClick={() =>handleTodoComplete(todo.id)}/> 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </IconButton>  
                                 <IconButton edge="end" aria-label="edit">
                                     <EditIcon onClick={() => handleEdit(todo.id)} />
                                 </IconButton>
@@ -82,10 +100,10 @@ const ToDoList = () => {
                     >
                         <ListItemAvatar>
                             <IconButton edge="end" aria-label="edit">
-                                <CheckCircleOutlineIcon />
+                                <DoubleArrowIcon />
                             </IconButton>
                         </ListItemAvatar>
-                        <ListItemText
+                        <ListItemText className="container"
                             primary={
                                 <ToDo key={todo.id} data={todo}></ToDo>
                             }

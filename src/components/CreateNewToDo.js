@@ -8,12 +8,18 @@ import TO_DO_LIST from '../constants/todos';
 export default function CreateNewToDo() {
     const [todoText, setTodoText] = useState('');
 
-    const handleNewToDo = () => {
+    const handleNewToDo = (event) => {
+        setTodoText('');
+        if (!(event.target.value)) {
+            alert("Input required!");
+            return;
+        }
+
         TO_DO_LIST.push({
             id: TO_DO_LIST.length + 1,
             text: todoText
         });
-        setTodoText('');
+
     }
 
     const handleToDoTextChange = (event) => {
@@ -24,10 +30,10 @@ export default function CreateNewToDo() {
     return (
         <Box>
             <h3>Create new task</h3>
-            <TextField onChange={handleToDoTextChange} value={todoText} id="outlined-basic" label="Enter the task.." variant="outlined" />
+            <TextField onChange={handleToDoTextChange} value={todoText} id="outlined-basic" label="Enter the task.." variant="outlined" required />
             <br />
             <br />
-            <Button onClick={handleNewToDo} variant="contained">Save</Button>
+            <Button disabled={!todoText} onClick={handleNewToDo} variant="contained">Save</Button>
         </Box>
     );
 }
