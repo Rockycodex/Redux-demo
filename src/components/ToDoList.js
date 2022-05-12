@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import "../App.css";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EditTask from "./EditTask";
-import { getTodoList, setTodo } from "../actions/todoActions";
+import { getTodoList, editTodo } from "../actions/todoActions";
 
 const ToDoList = (props) => {
   const [todoList, setTodoList] = useState([]);
@@ -60,7 +60,7 @@ const ToDoList = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        props.setTodo(res);
+        props.editTodo(res);
       });
     setEditTodo(false);
     setEditTodoText("");
@@ -132,7 +132,7 @@ const ToDoList = (props) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getTodoList: (todoList) => dispatch(getTodoList(todoList)),
-  setTodo: (todo) => dispatch(setTodo(todo)),
+  editTodo: (todo) => dispatch(editTodo(todo)),
 });
 
 const mapStateToProps = (state) => {

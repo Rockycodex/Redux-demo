@@ -9,6 +9,20 @@ export default (state = initialState, action) => {
       return {
         todoList: [...state.todoList, todo],
       };
+    case "EDIT_TODO":
+      const editTodo = action.payload;
+      return {
+        todoList: [...state.todoList.map(todo => {
+          if(todo.id === editTodo.id) {
+            return {
+              id: todo.id,
+              text: editTodo.text,
+              isCompleted: editTodo.isCompleted
+            }
+          }
+          return todo;
+        })],
+      };
     case "GET_TODO_LIST":
       return {
         todoList: action.payload,

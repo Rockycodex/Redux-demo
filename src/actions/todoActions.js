@@ -11,3 +11,11 @@ export const setTodo = (todo) => (dispatch) => {
     payload: todo,
   });
 };
+
+
+export const editTodo = (todo) => (dispatch) => {
+  dispatch({
+    type: "EDIT_TODO",
+    payload: todo,
+  });
+};
