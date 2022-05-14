@@ -1,5 +1,7 @@
+import { completeTodo, setTodo } from "../actions/todoActions";
+
 const initialState = {
-  todoList: []
+  todoList: [],
 };
 
 export default (state = initialState, action) => {
@@ -9,24 +11,44 @@ export default (state = initialState, action) => {
       return {
         todoList: [...state.todoList, todo],
       };
+
     case "EDIT_TODO":
       const editTodo = action.payload;
       return {
-        todoList: [...state.todoList.map(todo => {
-          if(todo.id === editTodo.id) {
-            return {
-              id: todo.id,
-              text: editTodo.text,
-              isCompleted: editTodo.isCompleted
+        todoList: [
+          ...state.todoList.map((todo) => {
+            if (todo.id === editTodo.id) {
+              todo.text = editTodo.text;
+              todo.isCompleted = editTodo.isCompleted;
             }
-          }
-          return todo;
-        })],
+            return todo;
+          }),
+        ],
       };
     case "GET_TODO_LIST":
       return {
         todoList: action.payload,
       };
+
+    case "DELETE_TODO":
+      const id = action.payload;
+      return {
+        todoList: [...state.todoList.filter((todo) => todo.id != id)],
+      };
+
+    case "COMPLETE_TODO":
+      const ctodo = action.payload;
+      return {
+        todoList: [
+          ...state.todoList.map((counter) => {
+            if (counter.id === ctodo.id) {
+              counter.isCompleted = ctodo.isCompleted;
+            }
+            return counter;
+          }),
+        ],
+      };
+
     default:
       return state;
   }

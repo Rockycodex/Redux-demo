@@ -19,3 +19,19 @@ export const editTodo = (todo) => (dispatch) => {
     payload: todo,
   });
 };
+
+export const deleteTodo = (id) => (dispatch) => {
+  dispatch({
+    type: "DELETE_TODO",
+    payload: id,
+  });
+};
+
+export const completeTodo = (todo) => (dispatch) => {
+  dispatch({
+    type: "COMPLETE_TODO",
+    payload: todo,
+  })
+}
+
+

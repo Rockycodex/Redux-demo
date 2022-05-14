@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import "../App.css";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EditTask from "./EditTask";
-import { getTodoList, editTodo } from "../actions/todoActions";
+import { getTodoList, editTodo, deleteTodo, completeTodo } from "../actions/todoActions";
 
 const ToDoList = (props) => {
   const [todoList, setTodoList] = useState([]);
@@ -30,8 +30,16 @@ const ToDoList = (props) => {
   }, []);
 
   const handleDelete = (id) => {
-    const newToDoList = props.todoList.filter((todo) => todo.id !== id);
-    setTodoList(newToDoList);
+    // const newToDoList = props.todoList.filter((todo) => todo.id !== id);
+   
+     fetch(`http://localhost:4000/todos/${id}`, {
+      method: "DELETE", // *GET, POST, PUT, DELETE, etc.
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        props.deleteTodo(id);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleEdit = (id) => {
@@ -48,7 +56,6 @@ const ToDoList = (props) => {
     const isCompleted = editTodoText.isCompleted;
     const editedTodo = {
       text: todoText,
-      isCompleted,
     };
 
     fetch(`http://localhost:4000/todos/${id}`, {
@@ -66,19 +73,33 @@ const ToDoList = (props) => {
     setEditTodoText("");
   };
 
-  const handleTodoComplete = (id) => {
-    const newTodo = todoList.filter((todo) => todo.id !== id);
-    const completedTodo = todoList.filter((todo) => todo.id === id)[0];
+  const handleTodoComplete = (id, isCompleted) => {
+    // const newTodo = todoList.filter((todo) => todo.id !== id);
+    // const completedTodo = todoList.filter((todo) => todo.id === id)[0];
 
-    if (completedTodo.isCompleted) {
-      completedTodo.isCompleted = false;
-      newTodo.unshift(completedTodo);
-    } else {
-      completedTodo.isCompleted = true;
-      newTodo.push(completedTodo);
-    }
+    // if (completedTodo.isCompleted) {
+    //   completedTodo.isCompleted = false;
+    //   newTodo.unshift(completedTodo);
+    // } else {
+    //   completedTodo.isCompleted = true;
+    //   newTodo.push(completedTodo);
+    // }
 
-    setTodoList(newTodo);
+    fetch(`http://localhost:4000/todos/${id}`, {
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        isCompleted
+      }), // body data type must match "Content-Type" header
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        props.completeTodo(res);
+        console.log(res);
+      });
+    
   };
 
   return (
@@ -99,7 +120,7 @@ const ToDoList = (props) => {
                   <>
                     <IconButton>
                       <DoneAllIcon
-                        onClick={() => handleTodoComplete(todo.id)}
+                        onClick={() => handleTodoComplete(todo.id, todo.isCompleted)}
                       />
                       &nbsp;&nbsp;&nbsp;&nbsp;
                     </IconButton>
@@ -133,6 +154,8 @@ const ToDoList = (props) => {
 const mapDispatchToProps = (dispatch) => ({
   getTodoList: (todoList) => dispatch(getTodoList(todoList)),
   editTodo: (todo) => dispatch(editTodo(todo)),
+  deleteTodo: (id) => dispatch(deleteTodo(id)),
+  completeTodo: (todo) => dispatch(completeTodo(todo)),
 });
 
 const mapStateToProps = (state) => {
@@ -142,3 +165,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+
