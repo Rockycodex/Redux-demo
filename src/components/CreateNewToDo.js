@@ -51,8 +51,8 @@ function CreateNewToDo(props) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setTodo: (todo) => dispatch(setTodo(todo)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   setTodo: (todo) => dispatch(setTodo(todo)),
+// });
 
-export default connect(null, mapDispatchToProps)(CreateNewToDo);
+export default CreateNewToDo;
