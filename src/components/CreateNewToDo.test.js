@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import CreateNewToDo from "./CreateNewToDo";
 describe("test CreateNewToDo component", () => {
+  //TODO: Before running the test through npm, 
+  // please comment redux code from  the component.
   test("should render CreateNewToDo component by default", () => {
     render(<CreateNewToDo />); //renders in screen
     // screen.debug() // prints dom for dubugging purpose
